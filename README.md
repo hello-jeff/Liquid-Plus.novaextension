@@ -13,7 +13,7 @@ Enhanced Liquid syntax highlighting for [Panic Nova](https://nova.app) with supp
 ✅ **Auto-completion** - Intelligent Liquid tag and filter suggestions  
 ✅ **Auto-pairing** - Smart bracket and quote completion
 
-## Perfect for Shopify Development
+## Created Specifically for Shopify Development
 
 This extension is specifically designed for Shopify theme developers who work with mixed-language Liquid templates:
 
@@ -48,21 +48,6 @@ const customerInfo = {
 {% endif %}
 ```
 
-## Installation
-
-### From Nova Extension Library
-
-1. Open Nova
-2. Go to **Extensions → Extension Library**
-3. Search for **"Liquid+"**
-4. Click **Install**
-
-### Manual Installation
-
-1. Download the latest release from [GitHub](https://github.com/hello-jeff/Liquid-Plus.novaextension/releases)
-2. Double-click the `.novaextension` file
-3. Nova will install it automatically
-
 ## Supported File Types
 
 | Extension      | Language            | Description                       |
@@ -84,8 +69,7 @@ This extension enhances the original Liquid extension with support for mixed-lan
 
 ## Requirements
 
-- **Nova 4.0+** (Tree-sitter support required)
-- **macOS 10.15+**
+- **Nova 12.0+** (Tree-sitter support required)
 
 ## Configuration
 
@@ -108,18 +92,7 @@ This extension builds upon the excellent work of:
 
 - **[arthrfrts/Liquid.novaextension](https://github.com/arthrfrts/Liquid.novaextension)** - Original Liquid extension for Nova that provided the foundation and Tree-sitter integration
 - **[hankthetank27/tree-sitter-liquid](https://github.com/hankthetank27/tree-sitter-liquid)** - The Tree-sitter grammar that powers Liquid syntax parsing
-- **[Shopify](https://shopify.github.io/liquid/)** - For creating the Liquid templating language
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/hello-jeff/Liquid-Plus.novaextension/issues)
-- 💡 **Feature Requests**: [GitHub Issues](https://github.com/hello-jeff/Liquid-Plus.novaextension/issues)
-- 📧 **Contact**: [hello@jeffdashley.com](mailto:hello@jeffdashley.com)
-
----
-
-**Made with ❤️ for the Shopify development community**
