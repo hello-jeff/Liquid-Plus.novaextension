@@ -1,19 +1,21 @@
 {
-  "identifier": "me.arthr.Liquid",
-  "name": "Liquid",
-  "organization": "arthr",
-  "description": "Syntax highlighting for Liquid template files.",
-  "version": "2.1.0",
+  "identifier": "com.jeffdashley.Liquid-Plus",
+  "name": "Liquid+",
+  "organization": "Jeff Dashley",
+  "description": "Enhanced Liquid syntax highlighting with support for CSS, JavaScript, and SCSS Liquid templates.",
+  "version": "1.0.0",
   "license": "MIT",
-  "bugs": "https://github.com/arthrfrts/Liquid.novaextension/issues",
-  "repository": "https://github.com/arthrfrts/Liquid.novaextension",
-  "funding": "https://github.com/sponsors/arthrfrts",
-  "main": "main.js",
+  "bugs": "https://github.com/jeffdashley/Liquid-Plus.novaextension/issues",
+  "repository": "https://github.com/jeffdashley/Liquid-Plus.novaextension",
+  "main": "Scripts/main.js",
   "keywords": [
     "liquid",
     "jekyll",
     "shopify",
     "html",
+    "css",
+    "javascript",
+    "scss",
     "templates",
     "syntax"
   ],
@@ -23,9 +25,14 @@
   ],
   "activationEvents": [
     "onLanguage:liquid",
+    "onLanguage:liquid-html",
+    "onLanguage:liquid-css",
+    "onLanguage:liquid-js",
+    "onLanguage:liquid-scss",
     "onLanguage:html",
     "onLanguage:css",
     "onLanguage:scss",
+    "onLanguage:javascript",
     "onLanguage:markdown"
   ]
 }
