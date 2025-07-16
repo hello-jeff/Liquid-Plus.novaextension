@@ -7,6 +7,7 @@
   "license": "MIT",
   "bugs": "https://github.com/jeffdashley/Liquid-Plus.novaextension/issues",
   "repository": "https://github.com/jeffdashley/Liquid-Plus.novaextension",
+  "funding": "https://coff.ee/hellojeff",
   "main": "Scripts/main.js",
   "keywords": [
     "liquid",
@@ -19,10 +20,7 @@
     "templates",
     "syntax"
   ],
-  "categories": [
-    "languages",
-    "completions"
-  ],
+  "categories": ["languages", "completions"],
   "activationEvents": [
     "onLanguage:liquid",
     "onLanguage:liquid-html",

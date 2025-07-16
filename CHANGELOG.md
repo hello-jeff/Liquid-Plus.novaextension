@@ -1,149 +1,48 @@
-## Version 2.0 🌳
-Released July 30, 2024.
+# Changelog
 
-**Tree-sitter!** I finally managed to migrate this extension to be a Tree-sitter language, using the tree-sitter library to support rich syntax rules.
+All notable changes to the Liquid+ Nova Extension will be documented in this file.
 
-This is an initial release, to prepare for the release of Nova 13, which will drop support for the legacy Regex language extensions later this year. So, somethings to consider before updating:
+## [1.0.0] - 2025-07-16
 
-* There is not support for some custom Jekyll tags, such as `include_cached`, `seo`, and `feed_meta`. I'm looking into adding these custom tags back to the extension soon.
-* SCSS (Liquid) and CSS (Liquid) were removed. Both never worked great before, so I'm planning to start fresh this time and try to reimplement it in a better way in the future.
-* I plan to rewrite the Completions in the future, stay tuned!
+### Added
 
-Also, some bugs were fixed --- mostly under the hood (like variables being considered methods). One major fix was in detectors. Now I believe HTML and Markdown files will be properly detected without conflicting with their non-Liquidfied counterparts :)
+- Initial release of Liquid+ extension
+- **New file type support:**
+  - `.css.liquid` files with CSS + Liquid syntax highlighting
+  - `.js.liquid` files with JavaScript + Liquid syntax highlighting
+  - `.scss.liquid` files with SCSS + Liquid syntax highlighting
+- Enhanced Tree-sitter injection system for mixed-language templates
+- Auto-completion support for all new syntax variants
+- Custom Liquid+ branding and icon
+- Funding support via Buy Me A Coffee
 
-Please, help me make this new major version better by filing bugs and giving feedback on [GitHub](https://github.com/arthrfrts/Liquid.novaextension). Thanks!
+### Enhanced
 
-### Version 2.1
+- Extended base Liquid functionality with multi-language template support
+- Improved file detection for Shopify theme development workflows
+- Updated extension metadata and configuration
 
-**New:**
+### Technical
 
-- **Completions!**  
-  I finally managed to add completions with tree-sitter support back to the language. 🎉
-- **Front-matter**  
-  Adds support for front-matter in HTML and Markdown files.
+- Added new syntax definition files (Liquid-CSS.xml, Liquid-JavaScript.xml, Liquid-SCSS.xml)
+- Created injection files for proper language highlighting (css.scm, javascript.scm, scss.scm)
+- Updated main.js to register new syntax variants
+- Enhanced extension.json with comprehensive activation events
 
-### Version 2.0.1
+---
 
-**New:**
+## Foundation
 
-- **Initial support for Jekyll-specific syntax**  
-	Jekyll-specific tags, such as `{% link %}` and `{% feed_meta %}` are supported.
+This extension is built upon the excellent foundation provided by [arthrfrts/Liquid.novaextension](https://github.com/arthrfrts/Liquid.novaextension), which brought Liquid syntax highlighting to Nova using [hankthetank27's tree-sitter-liquid grammar](https://github.com/hankthetank27/tree-sitter-liquid).
 
-**Fixes:**
+**Original Extension Changelog:** For the history of the base Liquid extension that this builds upon, see the [original changelog](https://github.com/arthrfrts/Liquid.novaextension/blob/main/CHANGELOG.md).
 
-- **Fixes code-injections for Markdown**  
-	Prevents HTML (Liquid) files to think they're actually Markdown files. They're not!
-- **Fixes support for filters**  
-	Sorry about that! Filters are working as it should have since v2.0 release.
-  
-### Version 2.0.2
+---
 
-**New:**
+## Contributing
 
-- **New tags**  
-  Added support for Jekyll `{% include_relative %}` tag.
-- **Updates tree-sitter dylib**  
-  Following latest release by @hankthetank27.
+Found a bug or have a feature request? Please [open an issue](https://github.com/hello-jeff/Liquid-Plus.novaextension/issues) or submit a pull request.
 
-***
+## Support
 
-## Version 1.2
-
-**New:**
-
-- **Liquid on Markdown and Liquid on CSS/SCSS**  
-  You can now use Liquid in your Markdown, CSS and SCSS files.
-
-**To do:**
-
-- Liquid for Nova still doesn't figure out automatically if you're writing Liquid on Markdown and CSS files. I plan to look further in file matches and detectors to fix this issue.
-
-### Version 1.2.1
-
-**Fixes:**
-
-- Removes the experimental detectors for Liquid on SCSS, CSS and Markdown. I still can't figure it out how make them work.
-
-### Version 1.2.2
-
-**Chores:**
-
-- Updates extension icon.
-
-### Version 1.2.3
-
-**Fixes:**
-
-- Adds detectors for Liquid on CSS, SCSS and Markdown files.
-
-#### Version 1.2.3-1
-
-**Chores:**
-
-- Updates changelog.
-
-
-### Version 1.2.4
-
-**Fixes:**
-
-- Fixes an issue with Markdown (Liquid) detector that activated in all cases.
-
-### Version 1.2.5
-
-**Ongoing:**
-
-- Removes detectors for Liquid subsyntaxes other than HTML, since they do not provide the quality I'm aiming for as of yet.
-
-***
-
-## Version 1.1
-
-**New:**
-
-- **v1.1 brings Completions!**
-  Liquid for Nova now supports code completions for both Liquid and Jekyll tags and filters.
-
-### Version 1.1.1
-
-**Chores:**
-
-- Fixes the extension image, broken in the 1.1 release.
-- Updates the CHANGELOG with a new, leaner organization.
-
-### Version 1.1.2
-
-**Fixes:**
-
-- Fixes a `capture` completion which generated an invalid syntax.
-- Prevents Nova to spell-check the `{% comment %}` tag.
-
-***
-
-## Version 1.0
-
-Initial release
-
-### Version 1.0.1
-
-**Fixes:**
-
-- Removes YAML block, since that didn't worked.
-- Improves Liquid tag support in Nova 4.0+.
-
-
-### Version 1.0.2
-
-**Enhancements:**
-
-@fifty8 made the following enhancements:
-
-- Modified priority of html to 0.5 (value is valid between 0-1) (#1) (also a bugfix).
-- Added content matching rule for liquid handlebar (#1).
-
-
-### Version 1.0.3
-
-**Fixes:**
-
-- Fix an issue where all `.html` files were identified as Liquid files (#2).
+If you find this extension helpful, consider [buying me a coffee](https://coff.ee/hellojeff) ☕️
