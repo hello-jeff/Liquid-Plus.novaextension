@@ -1,7 +1,7 @@
 {
-  "identifier": "com.hello-jeff.Liquid-Plus",
+  "identifier": "hello-jeff.Liquid-Plus",
   "name": "Liquid+",
-  "organization": "hello-jeff",
+  "organization": "Hello Jeff",
   "description": "Enhanced Liquid syntax highlighting with support for CSS, JavaScript, and SCSS Liquid templates.",
   "version": "1.0.0",
   "license": "MIT",
