@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <completions>
   <!-- Liquid Block Providers -->
 
@@ -7,6 +7,9 @@
     <syntax>liquid</syntax>
     <syntax>liquid-html</syntax>
     <syntax>liquid-md</syntax>
+    <syntax>liquid-css</syntax>
+    <syntax>liquid-js</syntax>
+    <syntax>liquid-scss</syntax>
     <query>
       ((tag_start) @provider.subtree
         (#cursor-in? @provider.subtree))
@@ -20,6 +23,9 @@
     <syntax>liquid</syntax>
     <syntax>liquid-html</syntax>
     <syntax>liquid-md</syntax>
+    <syntax>liquid-css</syntax>
+    <syntax>liquid-js</syntax>
+    <syntax>liquid-scss</syntax>
     <query>
       ((tag_start
         "{% " @provider.start
@@ -34,6 +40,9 @@
     <syntax>liquid</syntax>
     <syntax>liquid-html</syntax>
     <syntax>liquid-md</syntax>
+    <syntax>liquid-css</syntax>
+    <syntax>liquid-js</syntax>
+    <syntax>liquid-scss</syntax>
     <query>
       ((output_statement
         (variable
@@ -50,75 +59,75 @@
     <!-- Control Flow tags -->
     <completion string="if" symbol="keyword" priority="2">
       <behavior suffix="%}">
-        <append><![CDATA[ $[statement]
-  $[content]
+        <append><![CDATA[ statement
+  content
 {% else %}
-  $[alternative]
+  alternative
 {% endif ]]></append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append><![CDATA[ $[statement]
-  $[content]
+        <append><![CDATA[ statement
+  content
 {% else %}
-  $[alternative]
+  alternative
 {% endif]]></append>
       </behavior>
       <behavior>
-        <append><![CDATA[ $[statement] %}
-  $[content]
+        <append><![CDATA[ statement %}
+  content
 {% else %}
-  $[alternative]
+  alternative
 {% endif %}]]></append>
       </behavior>
     </completion>
     <completion string="if" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[statement] </append>
+        <append> statement </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[statement]</append>
+        <append> statement</append>
       </behavior>
       <behavior>
-        <append> $[statement] %}</append>
+        <append> statement %}</append>
       </behavior>
     </completion>
     <completion string="unless" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[statement] </append>
+        <append> statement </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[statement]</append>
+        <append> statement</append>
       </behavior>
       <behavior>
-        <append> $[statement] %}</append>
+        <append> statement %}</append>
       </behavior>
     </completion>
     <completion string="for" symbol="keyword" priority="2">
       <behavior suffix="%}">
-        <append><![CDATA[ $[item] in $[collection]
-  $[content]
+        <append><![CDATA[ item in collection
+  content
 {% endfor ]]></append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append><![CDATA[ $[item] in $[collection]
-  $[content]
+        <append><![CDATA[ item in collection
+  content
 {% endfor]]></append>
       </behavior>
       <behavior>
-        <append><![CDATA[ $[item] in $[collection] %}
-  $[content]
+        <append><![CDATA[ item in collection %}
+  content
 {% endfor %}]]></append>
       </behavior>
     </completion>
     <completion string="for" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[item] in $[collection] </append>
+        <append> item in collection </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[item] in $[collection]</append>
+        <append> item in collection</append>
       </behavior>
       <behavior>
-        <append> $[item] in $[collection] %}</append>
+        <append> item in collection %}</append>
       </behavior>
     </completion>
     <completion string="else" symbol="keyword">
@@ -126,7 +135,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>
@@ -134,13 +143,13 @@
     </completion>
     <completion string="elsif" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[statement] </append>
+        <append> statement </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[statement]</append>
+        <append> statement</append>
       </behavior>
       <behavior>
-        <append> $[statement] %}</append>
+        <append> statement %}</append>
       </behavior>
     </completion>
     <completion string="break" symbol="keyword">
@@ -148,7 +157,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>
@@ -159,7 +168,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>
@@ -167,105 +176,105 @@
     </completion>
     <completion string="case" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[variable] </append>
+        <append> variable </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[variable]</append>
+        <append> variable</append>
       </behavior>
       <behavior>
-        <append> $[variable] %}</append>
+        <append> variable %}</append>
       </behavior>
     </completion>
     <completion string="when" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[value] </append>
+        <append> value </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[value]</append>
+        <append> value</append>
       </behavior>
       <behavior>
-        <append> $[value] %}</append>
+        <append> value %}</append>
       </behavior>
     </completion>
 
     <!-- Variable tags -->
     <completion string="assign" symbol="keyword.construct">
       <behavior suffix="%}">
-        <append> $[variable] = $[value] </append>
+        <append> variable = value </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[variable] = $[value]</append>
+        <append> variable = value</append>
       </behavior>
       <behavior>
-        <append> $[variable] = $[value] %}</append>
+        <append> variable = value %}</append>
       </behavior>
     </completion>
     <completion string="capture" symbol="keyword.construct">
       <behavior suffix="%}">
-        <append> $[variable] </append>
+        <append> variable </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[variable]</append>
+        <append> variable</append>
       </behavior>
       <behavior>
-        <append> $[variable] %}</append>
+        <append> variable %}</append>
       </behavior>
     </completion>
     <completion string="increment" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[variable] </append>
+        <append> variable </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[variable]</append>
+        <append> variable</append>
       </behavior>
       <behavior>
-        <append> $[variable] %}</append>
+        <append> variable %}</append>
       </behavior>
     </completion>
     <completion string="decrement" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[variable] </append>
+        <append> variable </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[variable]</append>
+        <append> variable</append>
       </behavior>
       <behavior>
-        <append> $[variable] %}</append>
+        <append> variable %}</append>
       </behavior>
     </completion>
 
     <!--Template tags -->
     <completion string="include" symbol="keyword.construct">
       <behavior suffix="%}">
-        <append> '$[file]' </append>
+        <append> 'file' </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> '$[file]'</append>
+        <append> 'file'</append>
       </behavior>
       <behavior>
-        <append> '$[file]' %}</append>
+        <append> 'file' %}</append>
       </behavior>
     </completion>
     <completion string="include_relative" symbol="keyword.construct">
       <behavior suffix="%}">
-        <append> '$[path/to/file]' </append>
+        <append> 'path/to/file' </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> '$[path/to/file]'</append>
+        <append> 'path/to/file'</append>
       </behavior>
       <behavior>
-        <append> '$[path/to/file]' %}</append>
+        <append> 'path/to/file' %}</append>
       </behavior>
     </completion>
     <completion string="render" symbol="keyword.construct">
       <behavior suffix="%}">
-        <append> '$[snippet]' </append>
+        <append> 'snippet' </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> '$[snippet]'</append>
+        <append> 'snippet'</append>
       </behavior>
       <behavior>
-        <append> '$[snippet]' %}</append>
+        <append> 'snippet' %}</append>
       </behavior>
     </completion>
     <completion string="raw" symbol="keyword">
@@ -273,7 +282,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>
@@ -284,7 +293,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>
@@ -294,35 +303,35 @@
     <!-- Jekyll Tags -->
     <completion string="highlight" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[language] </append>
+        <append> language </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[language]</append>
+        <append> language</append>
       </behavior>
       <behavior>
-        <append> $[language] %}</append>
+        <append> language %}</append>
       </behavior>
     </completion>
     <completion string="link" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[path/to/file.md] </append>
+        <append> path/to/file.md </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[path/to/file.md]</append>
+        <append> path/to/file.md</append>
       </behavior>
       <behavior>
-        <append> $[path/to/file.md] %}</append>
+        <append> path/to/file.md %}</append>
       </behavior>
     </completion>
     <completion string="post_url" symbol="keyword">
       <behavior suffix="%}">
-        <append> $[YYYY-MM-DD-post-slug] </append>
+        <append> YYYY-MM-DD-post-slug </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append> $[YYYY-MM-DD-post-slug]</append>
+        <append> YYYY-MM-DD-post-slug</append>
       </behavior>
       <behavior>
-        <append> $[YYYY-MM-DD-post-slug] %}</append>
+        <append> YYYY-MM-DD-post-slug %}</append>
       </behavior>
     </completion>
     <completion string="seo" symbol="keyword">
@@ -330,7 +339,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>
@@ -341,7 +350,7 @@
         <append> </append>
       </behavior>
       <behavior suffix="(\s*%})">
-        <append></append>
+        <append />
       </behavior>
       <behavior>
         <append> %}</append>

@@ -12,8 +12,6 @@ All notable changes to the Liquid+ Nova Extension will be documented in this fil
   - `.js.liquid` files with JavaScript + Liquid syntax highlighting
   - `.scss.liquid` files with SCSS + Liquid syntax highlighting
 - Enhanced Tree-sitter injection system for mixed-language templates
-- Auto-completion support for all new syntax variants
-- Custom Liquid+ branding and icon
 - Funding support via Buy Me A Coffee
 
 ### Enhanced

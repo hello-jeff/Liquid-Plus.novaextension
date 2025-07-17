@@ -8,7 +8,6 @@
   "bugs": "https://github.com/jeffdashley/Liquid-Plus.novaextension/issues",
   "repository": "https://github.com/jeffdashley/Liquid-Plus.novaextension",
   "funding": "https://coff.ee/hellojeff",
-  "main": "Scripts/main.js",
   "keywords": [
     "liquid",
     "jekyll",

@@ -9,9 +9,7 @@ Enhanced Liquid syntax highlighting for [Panic Nova](https://nova.app) with supp
 ✅ **`.js.liquid` file support** - JavaScript with embedded Liquid templating  
 ✅ **`.scss.liquid` file support** - SCSS with embedded Liquid templating  
 ✅ **`.liquid` file support** - Standard HTML Liquid templates  
-✅ **Tree-sitter powered** - Fast, accurate syntax parsing  
-✅ **Auto-completion** - Intelligent Liquid tag and filter suggestions  
-✅ **Auto-pairing** - Smart bracket and quote completion
+✅ **Tree-sitter powered** - Fast, accurate syntax parsing
 
 ## Created Specifically for Shopify Development
 
