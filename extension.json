@@ -3,10 +3,10 @@
   "name": "Liquid+",
   "organization": "Hello Jeff",
   "description": "Enhanced Liquid syntax highlighting with support for CSS, JavaScript, and SCSS Liquid templates.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
-  "bugs": "https://github.com/jeffdashley/Liquid-Plus.novaextension/issues",
-  "repository": "https://github.com/jeffdashley/Liquid-Plus.novaextension",
+  "bugs": "https://github.com/hello-jeff/Liquid-Plus.novaextension/issues",
+  "repository": "https://github.com/hello-jeff/Liquid-Plus.novaextension",
   "funding": "https://coff.ee/hellojeff",
   "keywords": [
     "liquid",

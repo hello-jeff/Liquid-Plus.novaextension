@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <syntax name="liquid-css">
 	<meta>
 		<name>CSS (Liquid)</name>
@@ -47,12 +47,12 @@
 		<pair open="&apos;" close="&apos;" />
 		<pair open="&quot;" close="&quot;" />
 	</surrounding-pairs>
-	
+
 	<tree-sitter language="liquid">
 		<highlights />
 		<injections path="injections/css.scm" />
 	</tree-sitter>
-	
+
 	<scopes>
 		<scope name="liquid-css.comment.block">
 			<starts-with>
@@ -62,10 +62,10 @@
 				<expression>\{\%-?\s*endcomment\s*-?\%\}</expression>
 			</ends-with>
 		</scope>
-	
+
 		<include syntax="css" />
 	</scopes>
-	
+
 	<template-scopes>
 		<scope name="liquid-css.comment.block">
 			<symbol type="tag-framework">
@@ -80,7 +80,7 @@
 				<capture number="0" name="liquid.comment.block.end" />
 			</ends-with>
 		</scope>
-	
+
 		<scope name="liquid-css.tag.framework">
 			<symbol type="tag-framework">
 				<context behavior="subtree" group-by-name="true" />
@@ -99,7 +99,7 @@
 				</cut-off>
 			</subsyntax>
 		</scope>
-	
+
 		<scope name="liquid-css.tag.framework">
 			<symbol type="tag-framework">
 				<context behavior="subtree" group-by-name="true" />

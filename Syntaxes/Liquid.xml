@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <syntax name="liquid" subsyntax="true">
 	<meta>
 		<name>Liquid</name>
@@ -40,7 +40,7 @@
 		<pair open="&quot;" close="&quot;" />
 		<pair open="`" close="`" />
 	</surrounding-pairs>
-	
+
 	<tree-sitter>
 		<highlights />
 		<injections />

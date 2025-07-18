@@ -2,6 +2,25 @@
 
 All notable changes to the Liquid+ Nova Extension will be documented in this file.
 
+## [1.1.0] - 2025-07-18
+
+### Added
+
+- **Auto-completion system** with intelligent bracket handling
+- **Liquid tag completions** with smart `%}` closing behavior
+- **Shopify object completions** including `product.*`, `collection.*`, `customer.*`, `cart.*`, `settings.*`
+- **Complete filter library** with parameter hints for all Liquid and Shopify-specific filters
+- **Priority-based completions** offering both simple and full tag completions (e.g., `{% if %}` vs `{% if %}{% endif %}`)
+- **Context-aware suggestions** that adapt based on cursor position and existing brackets
+
+### Bug Fixes
+
+- Fixed issue where selecting completions after typing `{%` would result in duplicate closing brackets
+- Resolved problem where object completions (like `settings.logo`) wouldn't properly close Liquid tags
+- Improved completion consistency across all file types (`.liquid`, `.css.liquid`, `.js.liquid`, `.scss.liquid`)
+
+---
+
 ## [1.0.0] - 2025-07-16
 
 ### Added
@@ -12,6 +31,8 @@ All notable changes to the Liquid+ Nova Extension will be documented in this fil
   - `.js.liquid` files with JavaScript + Liquid syntax highlighting
   - `.scss.liquid` files with SCSS + Liquid syntax highlighting
 - Enhanced Tree-sitter injection system for mixed-language templates
+- Auto-completion support for all new syntax variants
+- Custom Liquid+ branding and icon
 - Funding support via Buy Me A Coffee
 
 ### Enhanced

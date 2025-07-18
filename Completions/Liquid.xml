@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <completions>
-  <!-- Liquid Block Providers -->
+  <!-- Enhanced Liquid Completions with Separate Providers for Whitespace Control -->
 
-  <!-- Liquid tags provider after `{%` -->
-  <provider name="liquid.tags">
+  <!-- Standard Liquid tags provider after `{%` -->
+  <provider name="liquid.tags.standard">
     <syntax>liquid</syntax>
     <syntax>liquid-html</syntax>
     <syntax>liquid-md</syntax>
@@ -15,10 +15,60 @@
         (#cursor-in? @provider.subtree))
     </query>
     <expression>(?&lt;=\{%\s)([a-zA-Z]*)</expression>
-    <set>liquid.tags</set>
+    <set>liquid.tags.standard</set>
   </provider>
 
-  <!-- Liquid closing tag provider after `{%` end -->
+  <!-- Whitespace control Liquid tags provider after `{%-` -->
+  <provider name="liquid.tags.whitespace">
+    <syntax>liquid</syntax>
+    <syntax>liquid-html</syntax>
+    <syntax>liquid-md</syntax>
+    <syntax>liquid-css</syntax>
+    <syntax>liquid-js</syntax>
+    <syntax>liquid-scss</syntax>
+    <query>
+      ((tag_start) @provider.subtree
+        (#cursor-in? @provider.subtree))
+    </query>
+    <expression>(?&lt;=\{%-\s?)([a-zA-Z]*)</expression>
+    <set>liquid.tags.whitespace</set>
+  </provider>
+
+  <!-- Standard Liquid objects provider after `{{` -->
+  <provider name="liquid.objects.standard">
+    <syntax>liquid</syntax>
+    <syntax>liquid-html</syntax>
+    <syntax>liquid-md</syntax>
+    <syntax>liquid-css</syntax>
+    <syntax>liquid-js</syntax>
+    <syntax>liquid-scss</syntax>
+    <query>
+      ((output_statement
+        (variable) @provider.subtree)
+        (#cursor-in? @provider.subtree))
+    </query>
+    <expression>(?&lt;=\{\{|\s)([a-zA-Z_\.]*)</expression>
+    <set>liquid.objects.standard</set>
+  </provider>
+
+  <!-- Whitespace control Liquid objects provider after `{{-` -->
+  <provider name="liquid.objects.whitespace">
+    <syntax>liquid</syntax>
+    <syntax>liquid-html</syntax>
+    <syntax>liquid-md</syntax>
+    <syntax>liquid-css</syntax>
+    <syntax>liquid-js</syntax>
+    <syntax>liquid-scss</syntax>
+    <query>
+      ((output_statement
+        (variable) @provider.subtree)
+        (#cursor-in? @provider.subtree))
+    </query>
+    <expression>(?&lt;=\{\{-|\s)([a-zA-Z_\.]*)</expression>
+    <set>liquid.objects.whitespace</set>
+  </provider>
+
+  <!-- Liquid closing tag provider -->
   <provider name="liquid.end-tags">
     <syntax>liquid</syntax>
     <syntax>liquid-html</syntax>
@@ -50,146 +100,186 @@
             "|" @provider.start))) @provider.subtree
         (#cursor-in? @provider.subtree))
     </query>
-    <expression>(?&lt;=\|\s)([a-zA-Z]*)</expression>
+    <expression>(?&lt;=\|\s?)([a-zA-Z]*)</expression>
     <set>liquid.filters</set>
   </provider>
 
-  <!-- Liquid tags -->
-  <set name="liquid.tags">
-    <!-- Control Flow tags -->
-    <completion string="if" symbol="keyword" priority="2">
-      <behavior suffix="%}">
-        <append><![CDATA[ statement
-  content
-{% else %}
-  alternative
-{% endif ]]></append>
+  <!-- COMPLETION SETS -->
+
+  <!-- Standard Liquid Tags -->
+  <set name="liquid.tags.standard">
+    <!-- Standard syntax behaviors -->
+    <behavior suffix="\}">
+      <append> %</append>
+    </behavior>
+    <behavior suffix="%\}">
+      <append> </append>
+    </behavior>
+    <behavior suffix="(\s*%\})">
+      <append />
+    </behavior>
+    <behavior>
+      <append> %}</append>
+    </behavior>
+
+    <!-- Control Flow -->
+    <completion string="if" priority="2">
+      <behavior suffix="\}">
+        <append> condition %}{% endif %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append><![CDATA[ statement
-  content
-{% else %}
-  alternative
-{% endif]]></append>
+      <behavior suffix="%\}">
+        <append> condition %}{% endif </append>
       </behavior>
-      <behavior>
-        <append><![CDATA[ statement %}
-  content
-{% else %}
-  alternative
-{% endif %}]]></append>
-      </behavior>
-    </completion>
-    <completion string="if" symbol="keyword">
-      <behavior suffix="%}">
-        <append> statement </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append> statement</append>
+      <behavior suffix="(\s*%\})">
+        <append> condition %}{% endif</append>
       </behavior>
       <behavior>
-        <append> statement %}</append>
+        <append> condition %}{% endif %}</append>
       </behavior>
     </completion>
-    <completion string="unless" symbol="keyword">
-      <behavior suffix="%}">
-        <append> statement </append>
+    <completion string="if" priority="1">
+      <behavior suffix="\}">
+        <append> condition %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append> statement</append>
+      <behavior suffix="%\}">
+        <append> condition </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> condition</append>
       </behavior>
       <behavior>
-        <append> statement %}</append>
+        <append> condition %}</append>
       </behavior>
     </completion>
-    <completion string="for" symbol="keyword" priority="2">
-      <behavior suffix="%}">
-        <append><![CDATA[ item in collection
-  content
-{% endfor ]]></append>
+
+    <completion string="unless" priority="2">
+      <behavior suffix="\}">
+        <append> condition %}{% endunless %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append><![CDATA[ item in collection
-  content
-{% endfor]]></append>
+      <behavior suffix="%\}">
+        <append> condition %}{% endunless </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> condition %}{% endunless</append>
       </behavior>
       <behavior>
-        <append><![CDATA[ item in collection %}
-  content
-{% endfor %}]]></append>
+        <append> condition %}{% endunless %}</append>
       </behavior>
     </completion>
-    <completion string="for" symbol="keyword">
-      <behavior suffix="%}">
+    <completion string="unless" priority="1">
+      <behavior suffix="\}">
+        <append> condition %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> condition </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> condition</append>
+      </behavior>
+      <behavior>
+        <append> condition %}</append>
+      </behavior>
+    </completion>
+
+    <completion string="for" priority="2">
+      <behavior suffix="\}">
+        <append> item in collection %}{% endfor %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> item in collection %}{% endfor </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> item in collection %}{% endfor</append>
+      </behavior>
+      <behavior>
+        <append> item in collection %}{% endfor %}</append>
+      </behavior>
+    </completion>
+    <completion string="for" priority="1">
+      <behavior suffix="\}">
+        <append> item in collection %</append>
+      </behavior>
+      <behavior suffix="%\}">
         <append> item in collection </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*%\})">
         <append> item in collection</append>
       </behavior>
       <behavior>
         <append> item in collection %}</append>
       </behavior>
     </completion>
-    <completion string="else" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
+
+    <completion string="assign">
+      <behavior suffix="\}">
+        <append> variable = value %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
+      <behavior suffix="%\}">
+        <append> variable = value </append>
       </behavior>
-      <behavior>
-        <append> %}</append>
-      </behavior>
-    </completion>
-    <completion string="elsif" symbol="keyword">
-      <behavior suffix="%}">
-        <append> statement </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append> statement</append>
+      <behavior suffix="(\s*%\})">
+        <append> variable = value</append>
       </behavior>
       <behavior>
-        <append> statement %}</append>
+        <append> variable = value %}</append>
       </behavior>
     </completion>
-    <completion string="break" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
+
+    <completion string="render">
+      <behavior suffix="\}">
+        <append> 'snippet-name' %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
+      <behavior suffix="%\}">
+        <append> 'snippet-name' </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'snippet-name'</append>
       </behavior>
       <behavior>
-        <append> %}</append>
+        <append> 'snippet-name' %}</append>
       </behavior>
     </completion>
-    <completion string="continue" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
+
+    <!-- Add all other standard tags with similar patterns -->
+    <completion string="elsif">
+      <behavior suffix="\}">
+        <append> condition %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
+      <behavior suffix="%\}">
+        <append> condition </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> condition</append>
       </behavior>
       <behavior>
-        <append> %}</append>
+        <append> condition %}</append>
       </behavior>
     </completion>
-    <completion string="case" symbol="keyword">
-      <behavior suffix="%}">
+
+    <completion string="else" />
+    <completion string="case">
+      <behavior suffix="\}">
+        <append> variable %</append>
+      </behavior>
+      <behavior suffix="%\}">
         <append> variable </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*%\})">
         <append> variable</append>
       </behavior>
       <behavior>
         <append> variable %}</append>
       </behavior>
     </completion>
-    <completion string="when" symbol="keyword">
-      <behavior suffix="%}">
+
+    <completion string="when">
+      <behavior suffix="\}">
+        <append> value %</append>
+      </behavior>
+      <behavior suffix="%\}">
         <append> value </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*%\})">
         <append> value</append>
       </behavior>
       <behavior>
@@ -197,45 +287,523 @@
       </behavior>
     </completion>
 
-    <!-- Variable tags -->
-    <completion string="assign" symbol="keyword.construct">
-      <behavior suffix="%}">
+    <completion string="break" />
+    <completion string="continue" />
+    <completion string="increment">
+      <behavior suffix="\}">
+        <append> variable %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> variable </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> variable</append>
+      </behavior>
+      <behavior>
+        <append> variable %}</append>
+      </behavior>
+    </completion>
+
+    <completion string="decrement">
+      <behavior suffix="\}">
+        <append> variable %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> variable </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> variable</append>
+      </behavior>
+      <behavior>
+        <append> variable %}</append>
+      </behavior>
+    </completion>
+
+    <completion string="include">
+      <behavior suffix="\}">
+        <append> 'snippet-name' %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'snippet-name' </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'snippet-name'</append>
+      </behavior>
+      <behavior>
+        <append> 'snippet-name' %}</append>
+      </behavior>
+    </completion>
+
+    <completion string="section">
+      <behavior suffix="\}">
+        <append> 'section-name' %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'section-name' </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'section-name'</append>
+      </behavior>
+      <behavior>
+        <append> 'section-name' %}</append>
+      </behavior>
+    </completion>
+
+    <completion string="cycle">
+      <behavior suffix="\}">
+        <append> 'value1', 'value2' %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'value1', 'value2' </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'value1', 'value2'</append>
+      </behavior>
+      <behavior>
+        <append> 'value1', 'value2' %}</append>
+      </behavior>
+    </completion>
+
+    <!-- Variables -->
+    <completion string="capture" priority="2">
+      <behavior suffix="\}">
+        <append> variable %}{% endcapture %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> variable %}{% endcapture </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> variable %}{% endcapture</append>
+      </behavior>
+      <behavior>
+        <append> variable %}{% endcapture %}</append>
+      </behavior>
+    </completion>
+    <completion string="capture" priority="1">
+      <behavior suffix="\}">
+        <append> variable %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> variable </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> variable</append>
+      </behavior>
+      <behavior>
+        <append> variable %}</append>
+      </behavior>
+    </completion>
+
+    <!-- Theme -->
+    <completion string="layout">
+      <behavior suffix="\}">
+        <append> 'layout-name' %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'layout-name' </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'layout-name'</append>
+      </behavior>
+      <behavior>
+        <append> 'layout-name' %}</append>
+      </behavior>
+    </completion>
+
+    <!-- Shopify Specific -->
+    <completion string="schema" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endschema %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endschema </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endschema</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endschema %}</append>
+      </behavior>
+    </completion>
+    <completion string="schema" priority="1" />
+
+    <completion string="style" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endstyle %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endstyle </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endstyle</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endstyle %}</append>
+      </behavior>
+    </completion>
+    <completion string="style" priority="1" />
+
+    <completion string="javascript" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endjavascript %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endjavascript </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endjavascript</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endjavascript %}</append>
+      </behavior>
+    </completion>
+    <completion string="javascript" priority="1" />
+
+    <completion string="form" priority="2">
+      <behavior suffix="\}">
+        <append> 'product', product %}{% endform %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'product', product %}{% endform </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'product', product %}{% endform</append>
+      </behavior>
+      <behavior>
+        <append> 'product', product %}{% endform %}</append>
+      </behavior>
+    </completion>
+    <completion string="form" priority="1">
+      <behavior suffix="\}">
+        <append> 'product', product %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'product', product </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'product', product</append>
+      </behavior>
+      <behavior>
+        <append> 'product', product %}</append>
+      </behavior>
+    </completion>
+
+    <!-- Comments -->
+    <completion string="comment" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endcomment %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endcomment </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endcomment</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endcomment %}</append>
+      </behavior>
+    </completion>
+    <completion string="comment" priority="1" />
+
+    <completion string="raw" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endraw %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endraw </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endraw</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endraw %}</append>
+      </behavior>
+    </completion>
+    <completion string="raw" priority="1" />
+
+  </set>
+
+  <!-- Whitespace Control Liquid Tags -->
+  <set name="liquid.tags.whitespace">
+    <!-- Whitespace control behaviors -->
+    <behavior suffix="\}">
+      <append> -%</append>
+    </behavior>
+    <behavior suffix="-%\}">
+      <append> </append>
+    </behavior>
+    <behavior suffix="(\s*-%\})">
+      <append />
+    </behavior>
+    <behavior>
+      <append> -%}</append>
+    </behavior>
+
+    <!-- Control Flow with whitespace control -->
+    <completion string="if" priority="2">
+      <behavior suffix="\}">
+        <append> condition -%}{%- endif -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> condition -%}{%- endif </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> condition -%}{%- endif</append>
+      </behavior>
+      <behavior>
+        <append> condition -%}{%- endif -%}</append>
+      </behavior>
+    </completion>
+    <completion string="if" priority="1">
+      <behavior suffix="\}">
+        <append> condition -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> condition </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> condition</append>
+      </behavior>
+      <behavior>
+        <append> condition -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="unless" priority="2">
+      <behavior suffix="\}">
+        <append> condition -%}{%- endunless -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> condition -%}{%- endunless </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> condition -%}{%- endunless</append>
+      </behavior>
+      <behavior>
+        <append> condition -%}{%- endunless -%}</append>
+      </behavior>
+    </completion>
+    <completion string="unless" priority="1">
+      <behavior suffix="\}">
+        <append> condition -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> condition </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> condition</append>
+      </behavior>
+      <behavior>
+        <append> condition -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="for" priority="2">
+      <behavior suffix="\}">
+        <append> item in collection -%}{%- endfor -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> item in collection -%}{%- endfor </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> item in collection -%}{%- endfor</append>
+      </behavior>
+      <behavior>
+        <append> item in collection -%}{%- endfor -%}</append>
+      </behavior>
+    </completion>
+    <completion string="for" priority="1">
+      <behavior suffix="\}">
+        <append> item in collection -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> item in collection </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> item in collection</append>
+      </behavior>
+      <behavior>
+        <append> item in collection -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="assign">
+      <behavior suffix="\}">
+        <append> variable = value -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
         <append> variable = value </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*-%\})">
         <append> variable = value</append>
       </behavior>
       <behavior>
-        <append> variable = value %}</append>
+        <append> variable = value -%}</append>
       </behavior>
     </completion>
-    <completion string="capture" symbol="keyword.construct">
-      <behavior suffix="%}">
+
+    <completion string="render">
+      <behavior suffix="\}">
+        <append> 'snippet-name' -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> 'snippet-name' </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> 'snippet-name'</append>
+      </behavior>
+      <behavior>
+        <append> 'snippet-name' -%}</append>
+      </behavior>
+    </completion>
+
+    <!-- Add all other whitespace control tags -->
+    <completion string="elsif">
+      <behavior suffix="\}">
+        <append> condition -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> condition </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> condition</append>
+      </behavior>
+      <behavior>
+        <append> condition -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="else" />
+    <completion string="case">
+      <behavior suffix="\}">
+        <append> variable -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
         <append> variable </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*-%\})">
         <append> variable</append>
       </behavior>
       <behavior>
-        <append> variable %}</append>
+        <append> variable -%}</append>
       </behavior>
     </completion>
-    <completion string="increment" symbol="keyword">
-      <behavior suffix="%}">
+
+    <completion string="when">
+      <behavior suffix="\}">
+        <append> value -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> value </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> value</append>
+      </behavior>
+      <behavior>
+        <append> value -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="break" />
+    <completion string="continue" />
+    <completion string="increment">
+      <behavior suffix="\}">
+        <append> variable -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
         <append> variable </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*-%\})">
         <append> variable</append>
       </behavior>
       <behavior>
-        <append> variable %}</append>
+        <append> variable -%}</append>
       </behavior>
     </completion>
-    <completion string="decrement" symbol="keyword">
-      <behavior suffix="%}">
+
+    <completion string="decrement">
+      <behavior suffix="\}">
+        <append> variable -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
         <append> variable </append>
       </behavior>
-      <behavior suffix="(\s*%})">
+      <behavior suffix="(\s*-%\})">
+        <append> variable</append>
+      </behavior>
+      <behavior>
+        <append> variable -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="include">
+      <behavior suffix="\}">
+        <append> 'snippet-name' -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> 'snippet-name' </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> 'snippet-name'</append>
+      </behavior>
+      <behavior>
+        <append> 'snippet-name' -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="section">
+      <behavior suffix="\}">
+        <append> 'section-name' -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> 'section-name' </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> 'section-name'</append>
+      </behavior>
+      <behavior>
+        <append> 'section-name' -%}</append>
+      </behavior>
+    </completion>
+
+    <completion string="cycle">
+      <behavior suffix="\}">
+        <append> 'value1', 'value2' -%</append>
+      </behavior>
+      <behavior suffix="-%\}">
+        <append> 'value1', 'value2' </append>
+      </behavior>
+      <behavior suffix="(\s*-%\})">
+        <append> 'value1', 'value2'</append>
+      </behavior>
+      <behavior>
+        <append> 'value1', 'value2' -%}</append>
+      </behavior>
+    </completion>
+
+    <!-- Variables -->
+    <completion string="capture" priority="2">
+      <behavior suffix="\}">
+        <append> variable %}{% endcapture %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> variable %}{% endcapture </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> variable %}{% endcapture</append>
+      </behavior>
+      <behavior>
+        <append> variable %}{% endcapture %}</append>
+      </behavior>
+    </completion>
+    <completion string="capture" priority="1">
+      <behavior suffix="\}">
+        <append> variable %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> variable </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
         <append> variable</append>
       </behavior>
       <behavior>
@@ -243,162 +811,526 @@
       </behavior>
     </completion>
 
-    <!--Template tags -->
-    <completion string="include" symbol="keyword.construct">
-      <behavior suffix="%}">
-        <append> 'file' </append>
+    <!-- Theme -->
+    <completion string="layout">
+      <behavior suffix="\}">
+        <append> 'layout-name' %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append> 'file'</append>
+      <behavior suffix="%\}">
+        <append> 'layout-name' </append>
       </behavior>
-      <behavior>
-        <append> 'file' %}</append>
-      </behavior>
-    </completion>
-    <completion string="include_relative" symbol="keyword.construct">
-      <behavior suffix="%}">
-        <append> 'path/to/file' </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append> 'path/to/file'</append>
+      <behavior suffix="(\s*%\})">
+        <append> 'layout-name'</append>
       </behavior>
       <behavior>
-        <append> 'path/to/file' %}</append>
-      </behavior>
-    </completion>
-    <completion string="render" symbol="keyword.construct">
-      <behavior suffix="%}">
-        <append> 'snippet' </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append> 'snippet'</append>
-      </behavior>
-      <behavior>
-        <append> 'snippet' %}</append>
-      </behavior>
-    </completion>
-    <completion string="raw" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
-      </behavior>
-      <behavior>
-        <append> %}</append>
-      </behavior>
-    </completion>
-    <completion string="comment" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
-      </behavior>
-      <behavior>
-        <append> %}</append>
+        <append> 'layout-name' %}</append>
       </behavior>
     </completion>
 
-    <!-- Jekyll Tags -->
-    <completion string="highlight" symbol="keyword">
-      <behavior suffix="%}">
-        <append> language </append>
+    <!-- Shopify Specific -->
+    <completion string="schema" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endschema %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append> language</append>
+      <behavior suffix="%\}">
+        <append> %}{% endschema </append>
       </behavior>
-      <behavior>
-        <append> language %}</append>
-      </behavior>
-    </completion>
-    <completion string="link" symbol="keyword">
-      <behavior suffix="%}">
-        <append> path/to/file.md </append>
-      </behavior>
-      <behavior suffix="(\s*%})">
-        <append> path/to/file.md</append>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endschema</append>
       </behavior>
       <behavior>
-        <append> path/to/file.md %}</append>
+        <append> %}{% endschema %}</append>
       </behavior>
     </completion>
-    <completion string="post_url" symbol="keyword">
-      <behavior suffix="%}">
-        <append> YYYY-MM-DD-post-slug </append>
+    <completion string="schema" priority="1" />
+
+    <completion string="style" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endstyle %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append> YYYY-MM-DD-post-slug</append>
+      <behavior suffix="%\}">
+        <append> %}{% endstyle </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endstyle</append>
       </behavior>
       <behavior>
-        <append> YYYY-MM-DD-post-slug %}</append>
+        <append> %}{% endstyle %}</append>
       </behavior>
     </completion>
-    <completion string="seo" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
+    <completion string="style" priority="1" />
+
+    <completion string="javascript" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endjavascript %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
+      <behavior suffix="%\}">
+        <append> %}{% endjavascript </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endjavascript</append>
       </behavior>
       <behavior>
-        <append> %}</append>
+        <append> %}{% endjavascript %}</append>
       </behavior>
     </completion>
-    <completion string="feed_meta" symbol="keyword">
-      <behavior suffix="%}">
-        <append> </append>
+    <completion string="javascript" priority="1" />
+
+    <completion string="form" priority="2">
+      <behavior suffix="\}">
+        <append> 'product', product %}{% endform %</append>
       </behavior>
-      <behavior suffix="(\s*%})">
-        <append />
+      <behavior suffix="%\}">
+        <append> 'product', product %}{% endform </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'product', product %}{% endform</append>
       </behavior>
       <behavior>
-        <append> %}</append>
+        <append> 'product', product %}{% endform %}</append>
       </behavior>
     </completion>
+    <completion string="form" priority="1">
+      <behavior suffix="\}">
+        <append> 'product', product %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> 'product', product </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> 'product', product</append>
+      </behavior>
+      <behavior>
+        <append> 'product', product %}</append>
+      </behavior>
+    </completion>
+
+    <!-- Comments -->
+    <completion string="comment" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endcomment %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endcomment </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endcomment</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endcomment %}</append>
+      </behavior>
+    </completion>
+    <completion string="comment" priority="1" />
+
+    <completion string="raw" priority="2">
+      <behavior suffix="\}">
+        <append> %}{% endraw %</append>
+      </behavior>
+      <behavior suffix="%\}">
+        <append> %}{% endraw </append>
+      </behavior>
+      <behavior suffix="(\s*%\})">
+        <append> %}{% endraw</append>
+      </behavior>
+      <behavior>
+        <append> %}{% endraw %}</append>
+      </behavior>
+    </completion>
+    <completion string="raw" priority="1" />
+
   </set>
 
-  <!-- Closing tags -->
+  <!-- Standard Objects -->
+  <set name="liquid.objects.standard">
+    <!-- Standard output behaviors -->
+    <behavior suffix="\}\}">
+      <append> </append>
+    </behavior>
+    <behavior suffix="(\s*\}\})">
+      <append />
+    </behavior>
+    <behavior suffix="\}">
+      <append> %</append>
+    </behavior>
+    <behavior suffix="%\}">
+      <append> </append>
+    </behavior>
+    <behavior suffix="(\s*%\})">
+      <append />
+    </behavior>
+    <behavior>
+      <append> }}</append>
+    </behavior>
+
+    <!-- Global Objects -->
+
+    <completion string="shop" />
+    <completion string="settings" />
+    <completion string="customer" />
+    <completion string="cart" />
+    <completion string="product" />
+    <completion string="collection" />
+    <completion string="page" />
+    <completion string="blog" />
+    <completion string="article" />
+
+    <!-- Section Objects -->
+    <completion string="section" />
+    <completion string="section.id" />
+    <completion string="section.settings" />
+    <completion string="section.blocks" />
+    <completion string="section.index" />
+    <completion string="section.location" />
+    <completion string="section.shopify_attributes" />
+
+    <!-- Block Objects -->
+    <completion string="block" />
+    <completion string="block.id" />
+    <completion string="block.type" />
+    <completion string="block.settings" />
+    <completion string="block.shopify_attributes" />
+
+    <!-- More Shop Properties -->
+    <completion string="shop.id" />
+    <completion string="shop.name" />
+    <completion string="shop.email" />
+    <completion string="shop.domain" />
+    <completion string="shop.url" />
+    <completion string="shop.currency" />
+    <completion string="shop.money_format" />
+    <completion string="shop.address" />
+    <completion string="shop.phone" />
+
+    <!-- More Product Properties -->
+    <completion string="product.description" />
+    <completion string="product.vendor" />
+    <completion string="product.type" />
+    <completion string="product.variants" />
+    <completion string="product.handle" />
+    <completion string="product.compare_at_price" />
+    <completion string="product.created_at" />
+    <completion string="product.updated_at" />
+
+    <!-- More Collection Properties -->
+    <completion string="collection.id" />
+    <completion string="collection.description" />
+    <completion string="collection.handle" />
+    <completion string="collection.image" />
+    <completion string="collection.all_tags" />
+    <completion string="collection.all_vendors" />
+    <completion string="collection.products_count" />
+
+    <!-- More Customer Properties -->
+    <completion string="customer.id" />
+    <completion string="customer.name" />
+    <completion string="customer.phone" />
+    <completion string="customer.accepts_marketing" />
+    <completion string="customer.orders" />
+    <completion string="customer.addresses" />
+    <completion string="customer.default_address" />
+    <completion string="customer.orders_count" />
+    <completion string="customer.total_spent" />
+
+    <!-- More Cart Properties -->
+    <completion string="cart.id" />
+    <completion string="cart.attributes" />
+    <completion string="cart.note" />
+    <completion string="cart.total_weight" />
+    <completion string="cart.currency" />
+    <completion string="cart.original_total_price" />
+    <completion string="cart.total_discount" />
+
+    <!-- Request Object -->
+    <completion string="request" />
+    <completion string="request.host" />
+    <completion string="request.page_type" />
+    <completion string="request.path" />
+    <completion string="request.locale" />
+    <completion string="request.design_mode" />
+
+    <!-- Routes Object -->
+    <completion string="routes" />
+    <completion string="routes.root_url" />
+    <completion string="routes.cart_url" />
+    <completion string="routes.account_url" />
+    <completion string="routes.search_url" />
+    <completion string="routes.collections_url" />
+
+    <!-- Template Object -->
+    <completion string="template" />
+    <completion string="template.name" />
+    <completion string="template.directory" />
+    <completion string="template.suffix" />
+
+    <!-- More Settings -->
+    <completion string="settings.checkout_logo" />
+    <completion string="settings.color_primary" />
+    <completion string="settings.color_secondary" />
+    <completion string="settings.type_header_font" />
+    <completion string="settings.type_base_font" />
+    <completion string="settings.social_twitter_link" />
+    <completion string="settings.social_facebook_link" />
+    <completion string="settings.social_instagram_link" />
+  </set>
+
+  <!-- Whitespace Control Objects -->
+  <set name="liquid.objects.whitespace">
+    <!-- Whitespace control output behaviors -->
+    <behavior suffix="-\}\}">
+      <append> </append>
+    </behavior>
+    <behavior suffix="(\s*-\}\})">
+      <append />
+    </behavior>
+    <behavior suffix="\}">
+      <append> -%</append>
+    </behavior>
+    <behavior suffix="-%\}">
+      <append> </append>
+    </behavior>
+    <behavior suffix="(\s*-%\})">
+      <append />
+    </behavior>
+    <behavior>
+      <append> -}}</append>
+    </behavior>
+
+    <!-- Same objects as standard, but with whitespace control -->
+
+    <completion string="shop" />
+    <completion string="settings" />
+    <completion string="customer" />
+    <completion string="cart" />
+    <completion string="product" />
+    <completion string="collection" />
+    <completion string="page" />
+    <completion string="blog" />
+    <completion string="article" />
+
+    <!-- Section Objects -->
+    <completion string="section" />
+    <completion string="section.id" />
+    <completion string="section.settings" />
+    <completion string="section.blocks" />
+    <completion string="section.index" />
+    <completion string="section.location" />
+    <completion string="section.shopify_attributes" />
+
+    <!-- Block Objects -->
+    <completion string="block" />
+    <completion string="block.id" />
+    <completion string="block.type" />
+    <completion string="block.settings" />
+    <completion string="block.shopify_attributes" />
+
+    <!-- More Shop Properties -->
+    <completion string="shop.id" />
+    <completion string="shop.name" />
+    <completion string="shop.email" />
+    <completion string="shop.domain" />
+    <completion string="shop.url" />
+    <completion string="shop.currency" />
+    <completion string="shop.money_format" />
+    <completion string="shop.address" />
+    <completion string="shop.phone" />
+
+    <!-- More Product Properties -->
+    <completion string="product.description" />
+    <completion string="product.vendor" />
+    <completion string="product.type" />
+    <completion string="product.variants" />
+    <completion string="product.handle" />
+    <completion string="product.compare_at_price" />
+    <completion string="product.created_at" />
+    <completion string="product.updated_at" />
+
+    <!-- More Collection Properties -->
+    <completion string="collection.id" />
+    <completion string="collection.description" />
+    <completion string="collection.handle" />
+    <completion string="collection.image" />
+    <completion string="collection.all_tags" />
+    <completion string="collection.all_vendors" />
+    <completion string="collection.products_count" />
+
+    <!-- More Customer Properties -->
+    <completion string="customer.id" />
+    <completion string="customer.name" />
+    <completion string="customer.phone" />
+    <completion string="customer.accepts_marketing" />
+    <completion string="customer.orders" />
+    <completion string="customer.addresses" />
+    <completion string="customer.default_address" />
+    <completion string="customer.orders_count" />
+    <completion string="customer.total_spent" />
+
+    <!-- More Cart Properties -->
+    <completion string="cart.id" />
+    <completion string="cart.attributes" />
+    <completion string="cart.note" />
+    <completion string="cart.total_weight" />
+    <completion string="cart.currency" />
+    <completion string="cart.original_total_price" />
+    <completion string="cart.total_discount" />
+
+    <!-- Request Object -->
+    <completion string="request" />
+    <completion string="request.host" />
+    <completion string="request.page_type" />
+    <completion string="request.path" />
+    <completion string="request.locale" />
+    <completion string="request.design_mode" />
+
+    <!-- Routes Object -->
+    <completion string="routes" />
+    <completion string="routes.root_url" />
+    <completion string="routes.cart_url" />
+    <completion string="routes.account_url" />
+    <completion string="routes.search_url" />
+    <completion string="routes.collections_url" />
+
+    <!-- Template Object -->
+    <completion string="template" />
+    <completion string="template.name" />
+    <completion string="template.directory" />
+    <completion string="template.suffix" />
+
+    <!-- More Settings -->
+    <completion string="settings.checkout_logo" />
+    <completion string="settings.color_primary" />
+    <completion string="settings.color_secondary" />
+    <completion string="settings.type_header_font" />
+    <completion string="settings.type_base_font" />
+    <completion string="settings.social_twitter_link" />
+    <completion string="settings.social_facebook_link" />
+    <completion string="settings.social_instagram_link" />
+  </set>
+
+  <!-- End Tags -->
   <set name="liquid.end-tags">
-    <completion string="if" symbol="keyword">
+    <completion string="endif" />
+    <completion string="endunless" />
+    <completion string="endcase" />
+    <completion string="endfor" />
+    <completion string="endtablerow" />
+    <completion string="endcapture" />
+    <completion string="endform" />
+    <completion string="endpaginate" />
+    <completion string="endcomment" />
+    <completion string="endraw" />
+    <completion string="endschema" />
+    <completion string="endstyle" />
+    <completion string="endjavascript" />
+
+  </set>
+
+  <!-- Liquid Filters -->
+  <set name="liquid.filters">
+    <!-- Array Filters -->
+    <completion string="first" />
+    <completion string="last" />
+    <completion string="join">
       <behavior>
-        <append>if %}</append>
+        <append>: ', '</append>
       </behavior>
     </completion>
-    <completion string="for" symbol="keyword">
+    <completion string="size" />
+    <completion string="map">
       <behavior>
-        <append>for %}</append>
+        <append>: 'property'</append>
       </behavior>
     </completion>
-    <completion string="case" symbol="keyword">
+    <completion string="where">
       <behavior>
-        <append>case %}</append>
+        <append>: 'property', 'value'</append>
       </behavior>
     </completion>
-    <completion string="unless" symbol="keyword">
+    <completion string="sort" />
+    <completion string="sort_by">
       <behavior>
-        <append>unless %}</append>
+        <append>: 'property'</append>
       </behavior>
     </completion>
-    <completion string="capture" symbol="keyword">
+    <completion string="reverse" />
+
+    <!-- String Filters -->
+    <completion string="append">
       <behavior>
-        <append>capture %}</append>
+        <append>: ' text'</append>
       </behavior>
     </completion>
-    <completion string="raw" symbol="keyword">
+    <completion string="prepend">
       <behavior>
-        <append>raw %}</append>
+        <append>: 'text '</append>
       </behavior>
     </completion>
-    <completion string="comment" symbol="keyword">
+    <completion string="capitalize" />
+    <completion string="downcase" />
+    <completion string="upcase" />
+    <completion string="strip" />
+    <completion string="truncate">
       <behavior>
-        <append>comment %}</append>
+        <append>: 50</append>
       </behavior>
     </completion>
-    <completion string="highlight" symbol="keyword">
+    <completion string="replace">
       <behavior>
-        <append>highlight %}</append>
+        <append>: 'search', 'replace'</append>
       </behavior>
     </completion>
+    <completion string="split">
+      <behavior>
+        <append>: ','</append>
+      </behavior>
+    </completion>
+    <completion string="escape" />
+
+    <!-- Math Filters -->
+    <completion string="plus">
+      <behavior>
+        <append>: 1</append>
+      </behavior>
+    </completion>
+    <completion string="minus">
+      <behavior>
+        <append>: 1</append>
+      </behavior>
+    </completion>
+    <completion string="times">
+      <behavior>
+        <append>: 2</append>
+      </behavior>
+    </completion>
+    <completion string="divided_by">
+      <behavior>
+        <append>: 2</append>
+      </behavior>
+    </completion>
+    <completion string="abs" />
+    <completion string="ceil" />
+    <completion string="floor" />
+
+    <!-- Date Filters -->
+    <completion string="date">
+      <behavior>
+        <append>: '%B %d, %Y'</append>
+      </behavior>
+    </completion>
+
+    <!-- Shopify Specific Filters -->
+    <completion string="money" />
+    <completion string="asset_url" />
+    <completion string="img_url">
+      <behavior>
+        <append>: '300x300'</append>
+      </behavior>
+    </completion>
+    <completion string="default">
+      <behavior>
+        <append>: 'fallback'</append>
+      </behavior>
+    </completion>
+    <completion string="json" />
+    <completion string="handle" />
   </set>
 </completions>

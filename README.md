@@ -1,15 +1,16 @@
 # Liquid+ Nova Extension
 
-Enhanced Liquid syntax highlighting for [Panic Nova](https://nova.app) with support for CSS, JavaScript, and SCSS Liquid templates.
+Liquid syntax highlighting for [Panic Nova](https://nova.app) with support for CSS, JavaScript, and SCSS Liquid templates.
 
 ## Features
 
 ✅ **Full Liquid syntax highlighting** - All standard Liquid tags, filters, and variables  
-✅ **`.css.liquid` file support** - CSS with embedded Liquid templating  
-✅ **`.js.liquid` file support** - JavaScript with embedded Liquid templating  
-✅ **`.scss.liquid` file support** - SCSS with embedded Liquid templating  
-✅ **`.liquid` file support** - Standard HTML Liquid templates  
-✅ **Tree-sitter powered** - Fast, accurate syntax parsing
+✅ **Completions for Tags, Objects, and Filters** - Work in Progress
+✅ **`.css.liquid` file support**
+✅ **`.js.liquid` file support**
+✅ **`.scss.liquid` file support**
+✅ **`.liquid` file support**
+✅ **Built with Tree Sitter**
 
 ## Created Specifically for Shopify Development
 
@@ -54,16 +55,6 @@ const customerInfo = {
 | `.css.liquid`  | CSS + Liquid        | Stylesheets with Liquid variables |
 | `.js.liquid`   | JavaScript + Liquid | Scripts with Liquid data          |
 | `.scss.liquid` | SCSS + Liquid       | Sass stylesheets with Liquid      |
-| `.html.liquid` | HTML + Liquid       | HTML templates with Liquid        |
-
-## What's New in Liquid+
-
-This extension enhances the original Liquid extension with support for mixed-language templates that are common in Shopify development but weren't previously supported in Nova:
-
-- **CSS Liquid Templates** - Style files that use Liquid for dynamic theming
-- **JavaScript Liquid Templates** - Script files that embed Liquid data
-- **SCSS Liquid Templates** - Sass files with Liquid variable injection
-- **Enhanced Tree-sitter Integration** - Improved parsing for complex mixed-language files
 
 ## Requirements
 
@@ -93,4 +84,4 @@ This extension builds upon the excellent work of:
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License - see file for details.
