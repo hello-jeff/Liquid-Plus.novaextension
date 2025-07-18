@@ -2,6 +2,14 @@
 
 All notable changes to the Liquid+ Nova Extension will be documented in this file.
 
+## [1.1.1] - 2025-07-18
+
+### Fixes
+
+- Fixed README formatting that was bugging me.
+
+---
+
 ## [1.1.0] - 2025-07-18
 
 ### Added
