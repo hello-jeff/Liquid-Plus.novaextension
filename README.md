@@ -3,14 +3,13 @@
 Liquid syntax highlighting for [Panic Nova](https://nova.app) with support for CSS, JavaScript, and SCSS Liquid templates.
 
 ## Features
-
 ✅ **Full Liquid syntax highlighting** - All standard Liquid tags, filters, and variables  
-✅ **Completions for Tags, Objects, and Filters** - Work in Progress
-✅ **`.css.liquid` file support**
-✅ **`.js.liquid` file support**
-✅ **`.scss.liquid` file support**
-✅ **`.liquid` file support**
-✅ **Built with Tree Sitter**
+✅ **Completions for Tags, Objects, and Filters** - Work in Progress  
+✅ **`.css.liquid` file support**  
+✅ **`.js.liquid` file support**  
+✅ **`.scss.liquid` file support**  
+✅ **`.liquid` file support**  
+✅ **Built with Tree Sitter**  
 
 ## Created Specifically for Shopify Development
 
