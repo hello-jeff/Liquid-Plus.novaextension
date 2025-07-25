@@ -10,6 +10,7 @@
     <syntax>liquid-css</syntax>
     <syntax>liquid-js</syntax>
     <syntax>liquid-scss</syntax>
+    <syntax>liquid-json</syntax>
     <query>
       ((tag_start) @provider.subtree
         (#cursor-in? @provider.subtree))
@@ -26,6 +27,7 @@
     <syntax>liquid-css</syntax>
     <syntax>liquid-js</syntax>
     <syntax>liquid-scss</syntax>
+    <syntax>liquid-json</syntax>
     <query>
       ((tag_start) @provider.subtree
         (#cursor-in? @provider.subtree))
@@ -42,6 +44,7 @@
     <syntax>liquid-css</syntax>
     <syntax>liquid-js</syntax>
     <syntax>liquid-scss</syntax>
+    <syntax>liquid-json</syntax>
     <query>
       ((output_statement
         (variable) @provider.subtree)
@@ -59,6 +62,7 @@
     <syntax>liquid-css</syntax>
     <syntax>liquid-js</syntax>
     <syntax>liquid-scss</syntax>
+    <syntax>liquid-json</syntax>
     <query>
       ((output_statement
         (variable) @provider.subtree)
@@ -76,6 +80,7 @@
     <syntax>liquid-css</syntax>
     <syntax>liquid-js</syntax>
     <syntax>liquid-scss</syntax>
+    <syntax>liquid-json</syntax>
     <query>
       ((tag_start
         "{% " @provider.start
@@ -93,6 +98,7 @@
     <syntax>liquid-css</syntax>
     <syntax>liquid-js</syntax>
     <syntax>liquid-scss</syntax>
+    <syntax>liquid-json</syntax>
     <query>
       ((output_statement
         (variable
